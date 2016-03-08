@@ -61,7 +61,7 @@ var switchMenuToActive = function () {
 };
 
 // On page load (before images or CSS)
-document.addEventListener("DOMContentLoaded", function (event) {
+// document.addEventListener("DOMContentLoaded", function (event) {
   
 // TODO: STEP 0: Look over the code from 
 // *** start *** 
@@ -80,13 +80,26 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 // *** start ***
 // On first load, show home view
+// showLoading("#main-content");
+// $ajaxUtils.sendGetRequest(
+//   allCategoriesUrl, 
+//   [...], // ***** <---- TODO: STEP 1: Substitute [...] ******
+//   true); // Explicitely setting the flag to get JSON from server processed into an object literal
+// });
+// *** finish **
+
+document.addEventListener("DOMContentLoaded", function (event) {
+  
+// On first load, show home view
 showLoading("#main-content");
 $ajaxUtils.sendGetRequest(
   allCategoriesUrl, 
-  [...], // ***** <---- TODO: STEP 1: Substitute [...] ******
-  true); // Explicitely setting the flag to get JSON from server processed into an object literal
+  function (responseText) {
+    document.querySelector("#main-content")
+      .innerHTML = responseText;
+  }, 
+  true);
 });
-// *** finish **
 
 
 // Builds HTML for the home page based on categories array
@@ -97,6 +110,9 @@ function buildAndShowHomeHTML (categories) {
   $ajaxUtils.sendGetRequest(
     homeHtmlUrl,
     function (homeHtml) {
+    document.querySelector("#main-content")
+      .innerHTML = responseText;
+
 
       // TODO: STEP 2: Here, call chooseRandomCategory, passing it retrieved 'categories'
       // Pay attention to what type of data that function returns vs what the chosenCategoryShortName
